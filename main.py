@@ -121,6 +121,7 @@ async def on_ready():
         print(f"Synced {len(synced)} commands")
     except Exception as e:
         print(f"Error syncing commands: {e}")
+    bot.add_view(TicketPanel())
     print(f"Logged in as {bot.user}")
 
 
