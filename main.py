@@ -13,9 +13,9 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="/", intents=intents)
 
 # カテゴリーIDと管理者ロールID
-TICKET_CATEGORY_ID = 123456789012345678  # チケット用カテゴリー
-DONE_CATEGORY_ID = 123456789012345679    # 対応済み移動先カテゴリー
-ADMIN_ROLE_ID = 123456789012345680       # 管理者ロールID
+TICKET_CATEGORY_ID = 1450086411956129894  # チケット用カテゴリー
+DONE_CATEGORY_ID = 1450086104182034512    # 対応済み移動先カテゴリー
+ADMIN_ROLE_ID = 1313086280141373441       # 管理者ロールID
 
 # --- /ticket-panel ---
 class TicketSelect(ui.Select):
@@ -114,6 +114,16 @@ async def ticket_panel(interaction: discord.Interaction):
         color=0x808080
     )
     await interaction.response.send_message(embed=embed, view=TicketPanel(), ephemeral=False)
+
+@bot.event
+async def on_ready():
+    # 全ギルドにスラッシュコマンドを同期
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} commands")
+    except Exception as e:
+        print(f"Error syncing commands: {e}")
+    print(f"Logged in as {bot.user}")
 
 # 起動
 keep_alive()
