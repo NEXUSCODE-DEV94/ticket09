@@ -74,7 +74,7 @@ class TicketDeleteButton(ui.Button):
 
 class TicketCloseButton(ui.Button):
     def __init__(self, user: discord.Member):
-        super().__init__(style=discord.ButtonStyle.secondary, label="対応済み / クローズ")
+        super().__init__(style=discord.ButtonStyle.secondary, label="管理者専用ボタン")
         self.user = user
 
     async def callback(self, interaction: Interaction):
