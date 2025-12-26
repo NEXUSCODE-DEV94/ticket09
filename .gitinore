@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+.env
+.env.* 
+*.log
+*.db
+*.sqlite3
+*.sqlite
+.DS_Store
