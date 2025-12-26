@@ -111,7 +111,8 @@ async def ticket_panel(interaction: discord.Interaction):
         description="## __Ticket Panel__\n> 購入：お問い合わせ\n> リンク送信禁止\n> 迷惑行為禁止",
         color=0x808080
     )
-    await interaction.response.send_message(embed=embed, view=TicketPanel(), ephemeral=False)
+    await interaction.response.defer()  # 初回レスポンスを先に返す
+    await interaction.followup.send(embed=embed, view=TicketPanel())
 
 
 @bot.event
