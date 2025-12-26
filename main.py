@@ -34,7 +34,7 @@ class TicketSelect(ui.Select):
             await interaction.response.send_message("カテゴリーが見つかりません。", ephemeral=True)
             return
 
-        ch_name = f"{self.user.name}-ticket-{self.values[0]}"
+        ch_name = f"🎫｜{self.user.name}"
         overwrites = {
             interaction.guild.default_role: discord.PermissionOverwrite(read_messages=False),
             self.user: discord.PermissionOverwrite(read_messages=True, send_messages=True),
