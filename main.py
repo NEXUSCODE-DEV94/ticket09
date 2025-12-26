@@ -34,7 +34,6 @@ class TicketSelect(ui.Select):
             await interaction.response.send_message("カテゴリーが見つかりません。", ephemeral=True)
             return
 
-        # チャンネル作成
         ch_name = f"{self.user.name}-ticket-{self.values[0]}"
         overwrites = {
             interaction.guild.default_role: discord.PermissionOverwrite(read_messages=False),
@@ -47,7 +46,6 @@ class TicketSelect(ui.Select):
 
         ticket_channel = await category.create_text_channel(ch_name, overwrites=overwrites)
 
-        # チャンネルに埋め込みとボタン送信
         embed = discord.Embed(
             title=f"{self.user.name}のTicket | {self.values[0]}",
             description=f"管理者の対応をお待ちください。\n※対応が遅れる場合があります。",
@@ -80,9 +78,7 @@ class TicketCloseButton(ui.Button):
         self.user = user
 
     async def callback(self, interaction: Interaction):
-        # 発言権限剥奪
         await interaction.channel.set_permissions(self.user, send_messages=False)
-        # DONEカテゴリーに移動
         done_category = interaction.guild.get_channel(DONE_CATEGORY_ID)
         if done_category:
             await interaction.channel.edit(category=done_category)
@@ -92,12 +88,14 @@ class TicketCloseButton(ui.Button):
 class TicketPanel(ui.View):
     def __init__(self):
         super().__init__(timeout=None)
-        self.add_item(ui.Button(label="チケットを作成", style=discord.ButtonStyle.secondary, custom_id="create_ticket"))
 
     @ui.button(label="チケットを作成", style=discord.ButtonStyle.secondary, custom_id="create_ticket")
     async def create_ticket(self, interaction: Interaction, button: ui.Button):
-        # ユーザーにセレクトメニュー表示
-        await interaction.response.send_message("チケットの種類を選択してください:", view=TicketSelectView(interaction.user), ephemeral=True)
+        await interaction.response.send_message(
+            "チケットの種類を選択してください:",
+            view=TicketSelectView(interaction.user),
+            ephemeral=True
+        )
 
 
 class TicketSelectView(ui.View):
@@ -115,9 +113,9 @@ async def ticket_panel(interaction: discord.Interaction):
     )
     await interaction.response.send_message(embed=embed, view=TicketPanel(), ephemeral=False)
 
+
 @bot.event
 async def on_ready():
-    # 全ギルドにスラッシュコマンドを同期
     try:
         synced = await bot.tree.sync()
         print(f"Synced {len(synced)} commands")
@@ -125,6 +123,6 @@ async def on_ready():
         print(f"Error syncing commands: {e}")
     print(f"Logged in as {bot.user}")
 
-# 起動
+
 keep_alive()
 bot.run(TOKEN)
